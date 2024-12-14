@@ -24,7 +24,11 @@
             <div class="flex items-center text-gray-400 text-lg mt-2">
                 <span class="mr-4">⭐ {{sprintf("%.2f",$movie['vote_average'])}}</span>
                 <span class="mr-4">📅 {{\Carbon\Carbon::parse($movie['release_date'])->format('Y')}}</span>
-                <span>⏱ {{sprintf("%.2f",$movie['runtime'] / 60)}}</span>
+                    @php
+                        $hours = floor($movie['runtime'] / 60);
+                        $minutes = $movie['runtime'] % 60;
+                    @endphp
+                <span>⏱ {{ $hours }}h {{ $minutes }}min</span>
             </div>
 
             <!-- Descrição -->

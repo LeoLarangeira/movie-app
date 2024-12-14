@@ -53,7 +53,7 @@
                     @foreach ($popularMovies as $popularMovie )
                     <x-movie-card :popularMovie="$popularMovie"/>
                     @endforeach
-                </div>
+            </div>
             <!-- Grid -->
         </div>
     </div>

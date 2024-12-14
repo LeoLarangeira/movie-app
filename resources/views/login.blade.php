@@ -62,7 +62,7 @@
                 <!-- Don't Have an Account -->
                 <p class="text-center text-gray-300 text-sm mt-4">
                     Don't have an account?
-                    <a href="#" class="text-blue-400 hover:text-blue-500 font-semibold">Create one!</a>
+                    <a href="{{route("create")}}" class="text-blue-400 hover:text-blue-500 font-semibold">Create one!</a>
                 </p>
             </form>
         </div>

@@ -22,7 +22,7 @@
                 <ul class="flex items-center">
                     <li><a href="#">Movie App</a></li>
 
-                    <li class="ml-16 "><a href="#">Movies</a></li>
+                    <li class="ml-16 "><a href="{{ route('movies.index') }}">Movies</a></li>
                     <li class="ml-6"><a href="#">TV Shows</a></li>
 
 
@@ -33,8 +33,12 @@
 
                     </div>
                     <div class="md:ml-4 mt-3 md:mt-0">
-                        <button class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">Sign In</button>
-                    <button  class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">Login</button>
+                        <a href="{{ route('create') }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                            Sign In
+                        </a>
+                        <a href="{{ route('login') }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                            Login
+                        </a>
                     </div>
 
                 </div>
