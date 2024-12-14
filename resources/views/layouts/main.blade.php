@@ -24,7 +24,6 @@
 
                     <li class="ml-16 "><a href="#">Movies</a></li>
                     <li class="ml-6"><a href="#">TV Shows</a></li>
-                    <li class="ml-6"><a href="#">TV Shows</a></li>
 
 
                 </ul>

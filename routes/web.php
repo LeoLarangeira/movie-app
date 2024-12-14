@@ -1,14 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MoviesController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/show', function(){
-    return view('show');
-});
 
 Route::view('/view', 'index');
 
@@ -18,4 +13,8 @@ Route::view('/login', 'login');
 
 Route::view('/profile', 'profile');
 
+//Controllers
 
+Route::get('/', [MoviesController::class, 'index'])->name('movies.index');
+Route::get('/show/{movie}', [MoviesController::class, 'show'])->name('movies.show');
+// Route::get('/show/{movie}', 'MoviesController@show')->name('movies.show');
