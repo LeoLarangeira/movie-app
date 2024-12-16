@@ -21,16 +21,15 @@
             <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 py-6">
                 <ul class="flex items-center">
                     <li><a href="#">Movie App</a></li>
-
                     <li class="ml-16 "><a href="{{ route('movies.index') }}">Movies</a></li>
-                    <li class="ml-6"><a href="#">TV Shows</a></li>
-
-
                 </ul>
                 <div class="flex flex-col md:flex-row items-center">
                     <div class="relative">
-                        <input type="text" class="bg-gray-800 rounded-full w-64 px-4 py-1" placeholder="Search...">
-
+                        <form action="{{route("movies.searchByName")}}" method="GET">
+                            @csrf
+                            <input type="text" name="movie" class="bg-gray-800 rounded-full w-64 px-4 py-1" placeholder="Search...">
+                            <button type="submit" class="absolute right-0 top-0 mt-1 mr-2 text-white">Buscar</button>
+                        </form>
                     </div>
                     @if (auth()->check())
                         <?php

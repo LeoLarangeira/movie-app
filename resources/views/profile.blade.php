@@ -22,50 +22,46 @@
 
             <!-- Conteúdo Principal -->
             <div class="w-full md:w-9/12 bg-gray-700 p-6 rounded-lg">
-                <!-- Filmes Favoritos -->
-                <div class="mb-6">
-                    <div class="flex items-center space-x-2 font-semibold text-white mb-4">
-                        <span class="text-xl tracking-wide border-b-2 border-orange-500">FAVORITE MOVIES</span>
-                    </div>
 
-                    @if ($favoriteMovies->isEmpty())
-                    <a href="/create-list" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        Adicionar um novo filme
-                    </a>
-                    @else
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            @foreach ($favoriteMovies as $movie)
-                                <div>
-                                    <!-- Imagem do filme -->
-                                    <img
-                                        class="w-full h-48 object-contain rounded-lg shadow-lg"
-                                        src="{{ $movie->poster_url ?? 'https://via.placeholder.com/150' }}"
-                                        alt="{{ $movie->title ?? 'Movie Poster' }}"
-                                    >
-                                    <!-- Título do filme -->
-                                    <h3 class="text-white text-sm font-semibold mt-2">"{ $movie->title }"</h3>
-                                </div>
-                            @endforeach
-                        </div>
-                        <a href="{{ route('lists.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Adicionar um novo filme
-                        </a>
-                        <a href="{{ route('lists.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Remover Filme
-                        </a>
-                    @endif
-                </div>
 
                 <!-- Minhas Listas -->
-                <div class="flex items-center justify-between mt-8">
-                    <div class="flex items-center space-x-2 font-semibold text-white leading-8">
-                        <span class="text-xl tracking-wide border-b-2 border-orange-500">MY LISTS</span>
+                <div class="mt-8">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-white border-b-2 border-orange-500">MY LISTS</h2>
+
+                        <!-- Botão para Criar Nova Lista -->
+                        <a href="{{ route('lists.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Create New List
+                        </a>
                     </div>
 
-                    <!-- Botão para Criar Nova Lista -->
-                    <a href="{{route("lists.create")}}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        Criar Nova Lista
-                    </a>
+                    <!-- Grade para Listas -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+                        @forelse ($lists as $list)
+                            <div class="bg-gray-800 p-4 rounded-lg shadow-md text-white flex flex-col justify-between">
+                                <!-- Nome da Lista -->
+                                <a href="{{ route('lists.show', $list['id']) }}" class="font-semibold text-lg hover:underline">
+                                    {{ $list['name'] }}
+                                </a>
+
+                                <!-- Opções para Editar e Excluir -->
+                                <div class="flex justify-between items-center mt-4">
+                                    <a href="{{ route('lists.edit', $list['id']) }}" class="text-blue-400 hover:text-blue-300">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('lists.delete', $list['id']) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this list?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-400 hover:text-red-300">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-gray-400 col-span-full">You don't have any lists yet. Create one above!</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>

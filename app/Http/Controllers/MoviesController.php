@@ -7,36 +7,12 @@ use Illuminate\Support\Facades\Http;
 
 class MoviesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index(){
         $popularMovies = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/movie/popular')
             ->json()['results'];
         return view('index',['popularMovies' => $popularMovies]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $showMovie = Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/'. $id)->json();
@@ -45,36 +21,69 @@ class MoviesController extends Controller
         ]);
     }
 
-    public function searchByName(string $name){
+    public function searchByName(Request $request){
+        $movieName = $request->query('movie');
         $showMovies = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/search/movie', [
-                'query' => $name,
+                'query' => $movieName,
             ])
             ->json()['results'];
         return view('search',['popularMovies' => $showMovies]);
     }
+    public function filterByYear(Request $request){
+        $year = $request->query('year');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $movies = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/discover/movie', [
+                'primary_release_year' => $year,
+            ])
+            ->json()['results'] ?? [];
+
+        return view('search', ['popularMovies' => $movies]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function filterBySort(Request $request){
+        $sortBy = $request->query('sort_by', 'popularity.desc');
+
+        $movies = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/discover/movie', [
+                'sort_by' => $sortBy,
+            ])
+            ->json()['results'] ?? [];
+
+        return view('search', ['popularMovies' => $movies]);
+    }
+    public function filterByGenre(Request $request){
+        $genreName = $request->query('genre');
+        $listGenre = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/genre/movie/list')
+        ->json()['genres'];
+        $genreId = null;
+        foreach ($listGenre as $genre) {
+            if (strtolower($genre['name']) == strtolower($genreName)) {
+                $genreId = $genre['id'];
+                break;
+            }
+        }
+        $movies = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/discover/movie', [
+                'with_genres' => $genreId,
+            ])
+            ->json()['results'] ?? [];
+        return view('search', ['popularMovies' => $movies]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+
+    public function filterByKeyword(Request $request){
+        $keyword = $request->query('keyword');
+
+        $movies = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/search/movie', [
+                'query' => $keyword,
+            ])
+            ->json()['results'] ?? [];
+
+        return view('search', ['popularMovies' => $movies]);
     }
+
 }

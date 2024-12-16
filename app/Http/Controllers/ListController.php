@@ -1,100 +1,89 @@
 <?php
-
 namespace App\Http\Controllers;
-
-use App\Models\Lists;
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('lists.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'public' => 'nullable|boolean',
+    public function store(Request $request){
+        $response = Http::withToken(config('services.tmdb.token'))->post('https://api.themoviedb.org/3/list', [
+            'name' => $request->input('name'),
+            'description' => $request->input('desc', 'Uma lista personalizada de filmes'),
+            'language' => 'pt-BR',
         ]);
 
-        // Criação da nova lista
-        $list = Lists::create([
-            'name' => $request->name,
-            'user_id' => Auth::id(),
-            'public' => $request->has('public') ? true : false,
+        $account_id = 21686149;
+
+        $accountLists = Http::withToken(config('services.tmdb.token'))
+        ->get(sprintf("https://api.themoviedb.org/3/account/%s/lists", $account_id))
+        ->json()["results"];
+
+        // dd($accountLists);
+
+
+        return view('profile', [ 'lists' => $accountLists ]);
+
+    }
+
+    public function addMovie(Request $request, $listId){
+        $response = Http::withToken(config('services.tmdb.token'))->post("https://api.themoviedb.org/3/list/{$listId}/add_item", [
+            'media_id' => $request->input('media_id'),
         ]);
 
-        return redirect()->route('lists.create')->with('success', 'Lista criada com sucesso!');
+        if ($response->successful()) {
+            return response()->json(['success' => 'Filme adicionado com sucesso!', 'response' => $response->json()]);
+        }
 
+        return response()->json(['error' => $response->json()], $response->status());
     }
 
-    public function showFavoriteMovies(){
+    public function addMovieByName($listName, $listId, Request $request){
+            $movieName = $request->query('movie_name');
 
+            // Busca os filmes no TMDB
+            $response = Http::withToken(config('services.tmdb.token'))
+                ->get('https://api.themoviedb.org/3/search/movie', [
+                    'query' => $movieName,
+                    'language' => 'en',
+                ]);
+
+            // Extrai os resultados
+            $movies = $response->successful() ? $response->json()['results'] : [];
+
+            // Retorna os filmes para a mesma view
+            return view('lists.add', [
+                'movies' => $movies,
+                'list' => ['id' => $listId, 'name' => $listName],
+            ]);
     }
 
-    public function favoriteMovie(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'public' => 'nullable|boolean',
-        ]);
 
-        // Criação da nova lista
-        $list = Lists::create([
-            'name' => $request->name,
-            'user_id' => Auth::id(),
-            'public' => true,
-        ]);
+    public function removeMovie(Request $request, $listId){
+        $response = Http::withToken(config('services.tmdb.token'))->post("https://api.themoviedb.org/3/list/{$listId}/remove_item", [
+            'media_id' => $request->input('media_id'),]);
 
-        return redirect()->route('lists.showFavoriteMovies')->with('success', 'Filme Adicionado a Lista de favoritos!');
+        if ($response->successful()) {
+            return response()->json(['success' => 'Filme removido com sucesso!', 'response' => $response->json()]);
+        }
+
+        return response()->json(['error' => $response->json()], $response->status());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    public function deleteList($listId){
+        $response = Http::withToken(config('services.tmdb.token'))->delete("https://api.themoviedb.org/3/list/{$listId}");
+
+        if ($response->successful()) {
+            return response()->json(['success' => 'Lista deletada com sucesso!']);
+        }
+
+        return response()->json(['error' => $response->json()], $response->status());
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isNull;
 
@@ -14,12 +15,16 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
+        $account_id = 21686149;
         $profileData = $request->query('profileData');
-        $lists = DB::select('select * from lists where user_id = ?', [$profileData['user_id']]);
+        $lists = Http::withToken(config('services.tmdb.token'))
+        ->get(sprintf("https://api.themoviedb.org/3/account/%s/lists", $account_id))
+        ->json()["results"];
+
         if(empty($lists)){
-            return view('profile', ['profileData' => $profileData, 'favoriteMovies' => collect()]);
+            return view('profile', ['profileData' => $profileData, 'lists' => collect()]);
         }else{
-            return view('profile', ['profileData' => $profileData, 'favoriteMovies' => collect($lists)]);
+            return view('profile', ['profileData' => $profileData, 'lists' => collect($lists)]);
         }
 
     }

@@ -6,47 +6,68 @@
     <div class="container mx-auto px-4 pt-16">
         <div class="popular-movies">
             <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold">Popular Movies</h2>
-                <!-- Date Filter -->
-            <div class="grid sm:grid-cols-1 lg:grid-cols-4 gap-8 py-4">
-                <div class="flex flex-col">
-                    <label for="year" class="text-white text-sm mb-1">Year</label>
-                    <input
-                        type="text"
-                        id="date"
-                        placeholder="Filter by date..."
-                        class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1"
-                />
-                </div>
-                    <!-- Order By -->
-                <div class="flex flex-col">
-                    <label for="sort" class="text-white text-sm mb-1">Sort By</label>
-                    <select id="sort" class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1 focus:outline-none">
-                        <option value="popularity" class="bg-gray-900 text-white">Popularity Descent</option>
-                        <option value="rating" class="bg-gray-900 text-white">Rating Descent</option>
-                        <option value="release" class="bg-gray-900 text-white">Release Date</option>
-                    </select>
-                </div>
-                <!-- Filter By Genre -->
-                <div class="flex flex-col">
-                    <label for="genre" class="text-white text-sm mb-1">Genre</label>
-                    <input
-                        type="text"
-                        id="genre"
-                        placeholder="Filter by genres..."
-                        class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1"
-                    />
-                </div>
-                <!-- Filter By KeyWord -->
-                <div class="flex flex-col">
-                    <label for="keyword" class="text-white text-sm mb-1">Filter By Keyword</label>
-                    <input
-                        type="text"
-                        id="keyword"
-                        placeholder="Filter by keywords..."
-                        class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1"
-                    />
-                </div>
-            </div>
+                <form method="GET">
+                    <div class="grid sm:grid-cols-1 lg:grid-cols-4 gap-8 py-4">
+
+                        <!-- Filtro por Ano -->
+                        <div class="flex flex-col">
+                            <label for="year" class="text-white text-sm mb-1">Year</label>
+                            <input
+                                type="text"
+                                id="year"
+                                name="year"
+                                placeholder="Filter by year..."
+                                class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1"
+                                onchange="this.form.action='{{ route('movies.filterByYear') }}'; this.form.submit();"
+                            />
+                        </div>
+
+                        <!-- Filtro por Ordenação -->
+                        <div class="flex flex-col">
+                            <label for="sort" class="text-white text-sm mb-1">Sort By</label>
+                            <select
+                                id="sort"
+                                name="sort_by"
+                                class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1 focus:outline-none"
+                                onchange="this.form.action='{{ route('movies.filterBySort') }}'; this.form.submit();"
+                            >
+                                <option class="bg-gray-900 text-white" value="popularity.desc">Popularity Descending</option>
+                                <option class="bg-gray-900 text-white"  value="popularity.asc">Popularity Ascending</option>
+                                <option class="bg-gray-900 text-white"  value="release_date.desc">Release Date Descending</option>
+                                <option class="bg-gray-900 text-white"  value="release_date.asc">Release Date Ascending</option>
+                                <option class="bg-gray-900 text-white"  value="vote_average.desc">Rating Descending</option>
+                                <option class="bg-gray-900 text-white"  value="vote_average.asc">Rating Ascending</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro por Gênero -->
+                        <div class="flex flex-col">
+                            <label for="genre" class="text-white text-sm mb-1">Genre</label>
+                            <input
+                                type="text"
+                                id="genre"
+                                name="genre"
+                                placeholder="Filter by genre..."
+                                class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1"
+                                onchange="this.form.action='{{ route('movies.filterByGenre') }}'; this.form.submit();"
+                            />
+                        </div>
+
+                        <!-- Filtro por Palavra-chave -->
+                        <div class="flex flex-col">
+                            <label for="keyword" class="text-white text-sm mb-1">Keyword</label>
+                            <input
+                                type="text"
+                                id="keyword"
+                                name="keyword"
+                                placeholder="Filter by keyword..."
+                                class="bg-transparent border border-pink-500 text-sm rounded px-2 py-1"
+                                onchange="this.form.action='{{ route('movies.filterByKeyword') }}'; this.form.submit();"
+                            />
+                        </div>
+
+                    </div>
+                </form>
 
 
             <div class="grid grid-cols-2 lg:grid-cols-2 gap-8 pt-16">
@@ -54,7 +75,7 @@
                     <x-movie-card :popularMovie="$popularMovie"/>
                     @endforeach
             </div>
-            <!-- Grid -->
+
         </div>
     </div>
 @endsection
