@@ -14,11 +14,9 @@
                         src="https://via.placeholder.com/200"
                         alt="User Profile">
                 </div>
-                <h1 class="text-white font-bold text-xl leading-8 my-4 text-center">{{$profileData['name']}}</h1>
+                <h1 class="text-white font-bold text-xl leading-8 my-4 text-center">{{Auth::user()->name}}</h1>
                 <p class="text-sm text-gray-300 leading-6 text-center">
-                    {{$profileData[
-                        'desc'
-                    ]}}
+                    "Absolute Cinema"
                 </p>
             </div>
 
@@ -45,10 +43,16 @@
                                         alt="{{ $movie->title ?? 'Movie Poster' }}"
                                     >
                                     <!-- Título do filme -->
-                                    <h3 class="text-white text-sm font-semibold mt-2">{{ $movie->title }}</h3>
+                                    <h3 class="text-white text-sm font-semibold mt-2">"{ $movie->title }"</h3>
                                 </div>
                             @endforeach
                         </div>
+                        <a href="{{ route('lists.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Adicionar um novo filme
+                        </a>
+                        <a href="{{ route('lists.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Remover Filme
+                        </a>
                     @endif
                 </div>
 
@@ -59,7 +63,7 @@
                     </div>
 
                     <!-- Botão para Criar Nova Lista -->
-                    <a href="/create-list" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <a href="{{route("lists.create")}}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Criar Nova Lista
                     </a>
                 </div>

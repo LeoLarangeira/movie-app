@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListController;
-
+use App\Http\Controllers\ProfileController;
 
 Route::view('/view', 'index')->name('index');
 
 Route::view('/login', 'user.login')->name('user.login');
 
-Route::view('/profile', 'profile');
 
 //Controllers
 
@@ -26,9 +26,9 @@ Route::resource('user', UserController::class);
 Route::get('/lists/create', [ListController::class, 'create'])->name('lists.create');
 Route::post('/lists', [ListController::class, 'store'])->name('lists.store');
 
+//profile
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
 //login
-// Route::middleware('auth')->group(function(){
-//     Route::get('/login', 'user.login', function(){
-//         return view('user.login');
-//     });
-// });
+Route::get('/login', [AuthController::class, 'index'])->name('user.login');
+Route::post('/login', [AuthController::class, 'login']);

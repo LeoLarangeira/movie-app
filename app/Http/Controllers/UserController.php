@@ -43,7 +43,7 @@ class UserController extends Controller
             DB::insert('insert into users (name, email ,password) values (?, ?,?)', [
                 $validated['name'],
                 $validated['email'],
-                $validated['password']
+                bcrypt($validated['password'])
             ]);
 
             return view('profile', ['profileData' => $validated, 'favoriteMovies' => collect()]);

@@ -3,39 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
-class AuthController extends Controller
+use function PHPUnit\Framework\isNull;
+
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('user.login');
+        $profileData = $request->query('profileData');
+        $lists = DB::select('select * from lists where user_id = ?', [$profileData['user_id']]);
+        if(empty($lists)){
+            return view('profile', ['profileData' => $profileData, 'favoriteMovies' => collect()]);
+        }else{
+            return view('profile', ['profileData' => $profileData, 'favoriteMovies' => collect($lists)]);
+        }
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function login(Request $request)
+    public function create()
     {
-
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/');
-        }
-
-        return back()->withErrors([
-            'email' => 'As credenciais fornecidas não correspondem.',
-        ])->onlyInput('email');
+        //
     }
 
     /**

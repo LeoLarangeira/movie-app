@@ -33,10 +33,16 @@
 
                     </div>
                     @if (auth()->check())
-                        <a href="{{ route('user.login') }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
-                            Login
+                        <?php
+                             $userData = Auth::user();
+                        ?>
+                        <a href="{{ route('profile', ['profileData' => ['name' => Auth::user()->name, 'user_id' => Auth::user()->id]]) }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                            {{$userData[
+                                'name'
+                            ]}}
                         </a>
-                    @endif
+
+                    @else
                     <div class="md:ml-4 mt-3 md:mt-0">
                         <a href="{{ route('user.create') }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
                             Sign In
@@ -45,6 +51,7 @@
                             Login
                         </a>
                     </div>
+                    @endif
 
                 </div>
             </div>

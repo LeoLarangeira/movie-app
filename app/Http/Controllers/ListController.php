@@ -30,15 +30,40 @@ class ListController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validateData = $request->validate([
-            'name' => 'required|string|max:255|unique:lists,name,NULL,id,user_id,' . Auth::id(),
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'public' => 'nullable|boolean',
         ]);
-        Lists::create([
-                'name' => $validateData['name'],
-                'user_id' => 1,
-            ]);
+
+        // Criação da nova lista
+        $list = Lists::create([
+            'name' => $request->name,
+            'user_id' => Auth::id(),
+            'public' => $request->has('public') ? true : false,
+        ]);
+
         return redirect()->route('lists.create')->with('success', 'Lista criada com sucesso!');
+
+    }
+
+    public function showFavoriteMovies(){
+
+    }
+
+    public function favoriteMovie(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'public' => 'nullable|boolean',
+        ]);
+
+        // Criação da nova lista
+        $list = Lists::create([
+            'name' => $request->name,
+            'user_id' => Auth::id(),
+            'public' => true,
+        ]);
+
+        return redirect()->route('lists.showFavoriteMovies')->with('success', 'Filme Adicionado a Lista de favoritos!');
     }
 
     /**

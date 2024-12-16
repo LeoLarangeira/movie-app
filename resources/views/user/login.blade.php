@@ -16,7 +16,8 @@
         <!-- Seção Direita (Formulário) -->
         <div class="w-1/2 p-8 bg-gray-700">
             <h2 class="text-2xl font-semibold text-orange-500 mb-6 text-center">Login</h2>
-            <form action="#" method="POST">
+            <form action="{{ route('user.login') }}" method="POST">
+                @csrf
                 <!-- Campo de Email -->
                 <div class="mb-4">
                     <label for="email" class="block text-gray-300 text-sm mb-2">Email:</label>
