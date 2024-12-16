@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Brick\Math\BigInteger;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Lists;
 
-class UserController extends Controller
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
+class ListController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-       return view('user.create');
+        return view('lists.create');
     }
 
     /**
@@ -31,28 +30,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|unique:users|max:255',
-                'password' => 'required|string|min:8|confirmed',
-                'desc' => 'required|string|max:255',
-             ]
-        );
-        if ($validated) {
-            DB::insert('insert into users (name, email ,password) values (?, ?,?)', [
-                $validated['name'],
-                $validated['email'],
-                $validated['password']
+
+        $validateData = $request->validate([
+            'name' => 'required|string|max:255|unique:lists,name,NULL,id,user_id,' . Auth::id(),
+        ]);
+        Lists::create([
+                'name' => $validateData['name'],
+                'user_id' => 1,
             ]);
-
-            return view('profile', ['profileData' => $validated, 'favoriteMovies' => collect()]);
-        }else{
-            return view('index');
-        }
-
-
-
+        return redirect()->route('lists.create')->with('success', 'Lista criada com sucesso!');
     }
 
     /**
