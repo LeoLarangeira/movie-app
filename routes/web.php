@@ -48,8 +48,8 @@ Route::middleware('auth')->group(function () {
     ->name('lists.addMovieByName');
     Route::post('/lists/{list_name}/{list_id}/add-movie', [ListController::class, 'addMovieByName'])
     ->name('lists.addMovieByName');
-    Route::post('/lists/{listId}/remove', [ListController::class, 'removeMovie'])->name('lists.removeMovie');
     Route::get('/lists/{id}/edit', [ListController::class, 'edit'])->name('lists.edit');
+    Route::delete('/lists/{listId}/remove-movie', [ListController::class, 'removeMovie'])->name('lists.removeMovie');
     Route::delete('/lists/{listId}', [ListController::class, 'deleteList'])->name('lists.delete');
 });
 

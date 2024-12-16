@@ -12,6 +12,13 @@
             <div class="bg-gray-800 p-4 rounded-lg shadow-md text-white">
                 <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" alt="{{ $movie['title'] }}" class="rounded-lg w-full h-64 object-cover">
                 <h3 class="font-semibold text-lg mt-4">{{ $movie['title'] }}</h3>
+                <form action="{{ route('lists.removeMovie', $list['id']) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-400 hover:text-red-300">
+                        Delete
+                    </button>
+                </form>
             </div>
         @empty
             <p class="text-gray-400">This list has no movies yet.</p>

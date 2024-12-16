@@ -42,13 +42,13 @@
                         {{ Str::limit($movie['overview'], 100) }}
                     </p>
                     <div class="mt-2">
-                        <!-- Botão para Ver Detalhes -->
                         <a
                             href="{{ route('movies.show', $movie['id']) }}"
                             class="text-blue-400 hover:underline"
                         >
                             Ver detalhes
                         </a>
+
                         <!-- Botão para Adicionar Filme -->
                         <form
                             action="{{ route('lists.addMovie', ['listId' => $list['id']]) }}"

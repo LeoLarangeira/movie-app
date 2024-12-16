@@ -27,8 +27,8 @@
                     <div class="relative">
                         <form action="{{route("movies.searchByName")}}" method="GET">
                             @csrf
-                            <input type="text" name="movie" class="bg-gray-800 rounded-full w-64 px-4 py-1" placeholder="Search...">
-                            <button type="submit" class="absolute right-0 top-0 mt-1 mr-2 text-white">Buscar</button>
+                            <input type="text" name="movie" class="bg-gray-800 rounded-full w-64 px-4 py-1" placeholder="">
+                            <button type="submit" class="absolute right-0 top-0 mt-1 mr-2 text-white">Search</button>
                         </form>
                     </div>
                     @if (auth()->check())

@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Http;
 class ListController extends Controller
 {
 
-    public function create()
-    {
+    public function create(){
         return view('lists.create');
     }
 
@@ -32,15 +31,21 @@ class ListController extends Controller
     }
 
     public function addMovie(Request $request, $listId){
+        $account_id = 21686149;
+
+        $accountLists = Http::withToken(config('services.tmdb.token'))
+        ->get(sprintf("https://api.themoviedb.org/3/account/%s/lists", $account_id))
+        ->json()["results"];
+
         $response = Http::withToken(config('services.tmdb.token'))->post("https://api.themoviedb.org/3/list/{$listId}/add_item", [
             'media_id' => $request->input('media_id'),
         ]);
 
         if ($response->successful()) {
-            return response()->json(['success' => 'Filme adicionado com sucesso!', 'response' => $response->json()]);
+            return view('profile', ['lists' => $accountLists]);
         }
 
-        return response()->json(['error' => $response->json()], $response->status());
+        return view('profile', ['lists' => $accountLists]);
     }
 
     public function addMovieByName($listName, $listId, Request $request){
@@ -65,14 +70,21 @@ class ListController extends Controller
 
 
     public function removeMovie(Request $request, $listId){
+        $account_id = 21686149;
+
+        $accountLists = Http::withToken(config('services.tmdb.token'))
+        ->get(sprintf("https://api.themoviedb.org/3/account/%s/lists", $account_id))
+        ->json()["results"];
+
         $response = Http::withToken(config('services.tmdb.token'))->post("https://api.themoviedb.org/3/list/{$listId}/remove_item", [
             'media_id' => $request->input('media_id'),]);
 
+        dd($response);
         if ($response->successful()) {
-            return response()->json(['success' => 'Filme removido com sucesso!', 'response' => $response->json()]);
+            return view('profile', ['lists' => $accountLists]);
         }
 
-        return response()->json(['error' => $response->json()], $response->status());
+        return view('profile', ['lists' => $accountLists]);
     }
 
     public function deleteList($listId){
