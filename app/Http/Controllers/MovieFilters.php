@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+
+//toda vez que um filtro for aplicado, ele ira salvar e recarregar a pagina com os filtros.
+class MovieFilters extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +21,7 @@ class UserController extends Controller
      */
     public function create()
     {
-       return view('user.create');
+        //
     }
 
     /**
@@ -28,20 +29,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $validated = $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|unique:users|max:255',
-                'password' => 'required|string|min:8|confirmed',
-                'desc' => 'required|string|max:255',
-             ]
-        );
-        if ($validated) {
-            return view('profile', ['profileData' => $validated, 'favoriteMovies' => collect()]);
-        }
-
-
+        //
     }
 
     /**

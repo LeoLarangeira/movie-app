@@ -14,10 +14,11 @@
                         src="https://via.placeholder.com/200"
                         alt="User Profile">
                 </div>
-                <h1 class="text-white font-bold text-xl leading-8 my-4 text-center">UserName</h1>
+                <h1 class="text-white font-bold text-xl leading-8 my-4 text-center">{{$profileData['name']}}</h1>
                 <p class="text-sm text-gray-300 leading-6 text-center">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non deserunt.
+                    {{$profileData[
+                        'desc'
+                    ]}}
                 </p>
             </div>
 
@@ -28,14 +29,27 @@
                     <div class="flex items-center space-x-2 font-semibold text-white mb-4">
                         <span class="text-xl tracking-wide border-b-2 border-orange-500">FAVORITE MOVIES</span>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                        <!-- Imagens dos filmes -->
-                        <img class="w-full h-48 object-contain rounded-lg shadow-lg" src="https://m.media-amazon.com/images/I/818oxnoHqoL._AC_UF894,1000_QL80_.jpg" alt="Movie Poster">
-                        <img class="w-full h-48  object-contain rounded-lg shadow-lg" src="https://m.media-amazon.com/images/I/818oxnoHqoL._AC_UF894,1000_QL80_.jpg" alt="Movie Poster">
-                        <img class="w-full h-48  object-contain rounded-lg shadow-lg" src="https://m.media-amazon.com/images/I/818oxnoHqoL._AC_UF894,1000_QL80_.jpg" alt="Movie Poster">
-                        <img class="w-full h-48  object-contain rounded-lg shadow-lg" src="https://m.media-amazon.com/images/I/818oxnoHqoL._AC_UF894,1000_QL80_.jpg" alt="Movie Poster">
-                        <img class="w-full h-48  object-contain rounded-lg shadow-lg" src="https://m.media-amazon.com/images/I/818oxnoHqoL._AC_UF894,1000_QL80_.jpg" alt="Movie Poster">
-                    </div>
+
+                    @if ($favoriteMovies->isEmpty())
+                    <a href="/create-list" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Adicionar um novo filme
+                    </a>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                            @foreach ($favoriteMovies as $movie)
+                                <div>
+                                    <!-- Imagem do filme -->
+                                    <img
+                                        class="w-full h-48 object-contain rounded-lg shadow-lg"
+                                        src="{{ $movie->poster_url ?? 'https://via.placeholder.com/150' }}"
+                                        alt="{{ $movie->title ?? 'Movie Poster' }}"
+                                    >
+                                    <!-- Título do filme -->
+                                    <h3 class="text-white text-sm font-semibold mt-2">{{ $movie->title }}</h3>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Minhas Listas -->
