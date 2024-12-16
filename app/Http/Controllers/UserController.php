@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Brick\Math\BigInteger;
-use Illuminate\Auth\Events\Validated;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -53,6 +52,13 @@ class UserController extends Controller
 
 
 
+    }
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 
     /**

@@ -29,6 +29,7 @@ Route::get('/movies/filter/keyword', [MoviesController::class, 'filterByKeyword'
 
 //user
 Route::resource('user', UserController::class);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 //lists
 Route::middleware('auth')->group(function () {

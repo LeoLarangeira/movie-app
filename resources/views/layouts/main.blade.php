@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Movie App</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -40,6 +40,14 @@
                                 'name'
                             ]}}
                         </a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="middle none center mr-3 rounded-lg border border-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                            LOGOUT
+                        </a>
+
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                            @csrf
+                        </form>
 
                     @else
                     <div class="md:ml-4 mt-3 md:mt-0">
