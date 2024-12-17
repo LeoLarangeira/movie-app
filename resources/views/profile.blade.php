@@ -6,7 +6,7 @@
     <h2 class="text-3xl font-bold text-center text-orange-500 mb-8">ABOUT ME</h2>
     <div class="container mx-auto my-5 p-5 bg-gray-800 rounded-lg shadow-lg">
         <div class="md:flex md:space-x-6">
-            <!-- Perfil do Usuário -->
+
             <div class="w-full md:w-3/12 bg-gray-700 p-4 rounded-lg">
                 <div class="image overflow-hidden rounded-lg">
                     <img
@@ -20,31 +20,30 @@
                 </p>
             </div>
 
-            <!-- Conteúdo Principal -->
             <div class="w-full md:w-9/12 bg-gray-700 p-6 rounded-lg">
 
 
-                <!-- Minhas Listas -->
+
                 <div class="mt-8">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-semibold text-white border-b-2 border-orange-500">MY LISTS</h2>
 
-                        <!-- Botão para Criar Nova Lista -->
+
                         <a href="{{ route('lists.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             Create New List
                         </a>
                     </div>
 
-                    <!-- Grade para Listas -->
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
                         @forelse ($lists as $list)
                             <div class="bg-gray-800 p-4 rounded-lg shadow-md text-white flex flex-col justify-between">
-                                <!-- Nome da Lista -->
+
                                 <a href="{{ route('lists.show', $list['id']) }}" class="font-semibold text-lg hover:underline">
                                     {{ $list['name'] }}
                                 </a>
 
-                                <!-- Opções para Editar e Excluir -->
+
                                 <div class="flex justify-between items-center mt-4">
                                     <a href="{{ route('lists.edit', $list['id']) }}" class="text-blue-400 hover:text-blue-300">
                                         Edit

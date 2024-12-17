@@ -3,12 +3,12 @@
 @section('content')
 
 <div class="container mx-auto mt-6">
-    <!-- Título -->
+
     <h1 class="text-2xl font-bold text-white">
-        Adicionar Filmes à Lista: {{ $list['name'] }}
+        Add Movies To List{{ $list['name'] }}
     </h1>
 
-    <!-- Formulário de Busca -->
+
     <form
         action="{{ route('lists.addMovieByName', ['list_name' => $list['name'], 'list_id' => $list['id']]) }}"
         method="GET"
@@ -18,16 +18,16 @@
         <input
             type="text"
             name="movie_name"
-            placeholder="Digite o nome do filme"
+            placeholder="Insert the Movie Name"
             class="border rounded px-4 py-2 w-full md:w-1/2"
             required
         >
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Buscar Filmes
+           Search Movie
         </button>
     </form>
 
-    <!-- Resultados da Busca -->
+
     @if(isset($movies) && count($movies) > 0)
         <div class="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($movies as $movie)
@@ -49,7 +49,6 @@
                             Ver detalhes
                         </a>
 
-                        <!-- Botão para Adicionar Filme -->
                         <form
                             action="{{ route('lists.addMovie', ['listId' => $list['id']]) }}"
                             method="POST"
@@ -58,7 +57,7 @@
                             @csrf
                             <input type="hidden" name="media_id" value="{{ $movie['id'] }}">
                             <button type="submit" class="text-green-400 hover:underline">
-                                Adicionar à Lista
+                               Add to the list
                             </button>
                         </form>
                     </div>
@@ -66,7 +65,7 @@
             @endforeach
         </div>
     @elseif(isset($movies))
-        <p class="text-red-500 mt-4">Nenhum filme encontrado com o nome pesquisado.</p>
+        <p class="text-red-500 mt-4">No movies found with the searched name.</p>
     @endif
 </div>
 

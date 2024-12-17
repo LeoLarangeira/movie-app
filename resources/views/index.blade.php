@@ -9,7 +9,7 @@
                 <form method="GET">
                     <div class="grid sm:grid-cols-1 lg:grid-cols-4 gap-8 py-4">
 
-                        <!-- Filtro por Ano -->
+
                         <div class="flex flex-col">
                             <label for="year" class="text-white text-sm mb-1">Year</label>
                             <input
@@ -22,7 +22,7 @@
                             />
                         </div>
 
-                        <!-- Filtro por Ordenação -->
+
                         <div class="flex flex-col">
                             <label for="sort" class="text-white text-sm mb-1">Sort By</label>
                             <select
@@ -40,7 +40,7 @@
                             </select>
                         </div>
 
-                        <!-- Filtro por Gênero -->
+
                         <div class="flex flex-col">
                             <label for="genre" class="text-white text-sm mb-1">Genre</label>
                             <input
@@ -53,7 +53,7 @@
                             />
                         </div>
 
-                        <!-- Filtro por Palavra-chave -->
+
                         <div class="flex flex-col">
                             <label for="keyword" class="text-white text-sm mb-1">Keyword</label>
                             <input
