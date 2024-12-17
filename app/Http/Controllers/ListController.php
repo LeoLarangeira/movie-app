@@ -11,11 +11,22 @@ class ListController extends Controller
     }
 
     public function store(Request $request){
-        $response = Http::withToken(config('services.tmdb.token'))->post('https://api.themoviedb.org/3/list', [
-            'name' => $request->input('name'),
-            'description' => $request->input('desc', 'Uma lista personalizada de filmes'),
-            'language' => 'pt-BR',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'public' => 'required|boolean',
         ]);
+
+
+
+        $response = Http::withToken(config('services.tmdb.token'))
+        ->post('https://api.themoviedb.org/3/list', [
+            'name' => $validated['name'],
+            'description' => $request->input('description', ''),
+            'language' => 'en',
+            'public' => $validated['public'],
+        ]);
+
+
 
         $account_id = 21686149;
 
@@ -23,7 +34,6 @@ class ListController extends Controller
         ->get(sprintf("https://api.themoviedb.org/3/account/%s/lists", $account_id))
         ->json()["results"];
 
-        // dd($accountLists);
 
 
         return view('profile', [ 'lists' => $accountLists ]);
@@ -51,17 +61,16 @@ class ListController extends Controller
     public function addMovieByName($listName, $listId, Request $request){
             $movieName = $request->query('movie_name');
 
-            // Busca os filmes no TMDB
             $response = Http::withToken(config('services.tmdb.token'))
                 ->get('https://api.themoviedb.org/3/search/movie', [
                     'query' => $movieName,
                     'language' => 'en',
                 ]);
 
-            // Extrai os resultados
+
             $movies = $response->successful() ? $response->json()['results'] : [];
 
-            // Retorna os filmes para a mesma view
+
             return view('lists.add', [
                 'movies' => $movies,
                 'list' => ['id' => $listId, 'name' => $listName],

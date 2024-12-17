@@ -57,12 +57,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/lists/{id}', [ListFilterController::class, 'show'])->name('lists.show');
-
-    // Editar Lista
     Route::get('/edit-lists/{id}/edit', [ListFilterController::class, 'edit'])->name('lists.edit');
     Route::put('/edit-lists/{id}', [ListFilterController::class, 'update'])->name('lists.update');
-
-    // Excluir Lista
     Route::delete('/delete-lists/{id}', [ListFilterController::class, 'deleteList'])->name('lists.delete');
     });
 

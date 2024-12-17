@@ -5,8 +5,6 @@
 <div class="container mx-auto mt-10">
     <h1 class="text-2xl font-bold text-white">{{ $list['name'] }}</h1>
     <p class="text-gray-400 mt-2">{{ $list['description'] }}</p>
-
-
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         @forelse ($list['items'] as $movie)
             <div class="bg-gray-800 p-4 rounded-lg shadow-md text-white">
