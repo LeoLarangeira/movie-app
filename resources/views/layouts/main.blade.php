@@ -9,6 +9,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="icon" href="{{ asset('claquete.png') }}" type="image/png">
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -20,7 +21,7 @@
         <nav class="border-b border-gray-800">
             <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 py-6">
                 <ul class="flex items-center">
-                    <li><a href="#">Movie App</a></li>
+                    <li><a href="{{ route('movies.index') }}">Movie App</a></li>
                     <li class="ml-16 "><a href="{{ route('movies.index') }}">Movies</a></li>
                 </ul>
                 <div class="flex flex-col md:flex-row items-center">
