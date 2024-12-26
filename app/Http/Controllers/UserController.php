@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-       return view('user.create');
+        return view('user.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class UserController extends Controller
                 'email' => 'required|string|email|unique:users|max:255',
                 'password' => 'required|string|min:8|confirmed',
                 'desc' => 'required|string|max:255',
-             ]
+            ]
         );
         if ($validated) {
             DB::insert('insert into users (name, email ,password) values (?, ?,?)', [
@@ -46,14 +46,12 @@ class UserController extends Controller
             ]);
 
             return view('profile', ['profileData' => $validated, 'favoriteMovies' => collect()]);
-        }else{
+        } else {
             return view('index');
         }
-
-
-
     }
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -82,7 +80,10 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //verify id
+        $getUser = DB::select(
+            "select * from users where id = ?"[$id]
+        );
     }
 
     /**
