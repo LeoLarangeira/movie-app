@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -30,22 +31,50 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/authentication/guest_session/new');
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/authentication/guest_session/new', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('services.tmdb.token'),
+                'accept' => 'application/json',
+            ],
+        ]);
+
+        $guest_api = json_decode($response->getBody(), true);
+
+        $guest_api_key = $guest_api['guest_session_id'];
+
+
         $validated = $request->validate(
             [
                 'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255',
                 'email' => 'required|string|email|unique:users|max:255',
                 'password' => 'required|string|min:8|confirmed',
-                'desc' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
             ]
         );
+
+
         if ($validated) {
-            DB::insert('insert into users (name, email ,password) values (?, ?,?)', [
-                $validated['name'],
-                $validated['email'],
-                bcrypt($validated['password'])
+            $userId = DB::table('users')->insertGetId([
+                'name' => (string) $validated['name'],
+                'email' => (string) $validated['email'],
+                'username' => (string) $validated['username'],
+                'description' => (string) $validated['description'],
+                'password' => bcrypt($validated['password']),
+                'guest_session_api_key' => (string) $guest_api_key,
             ]);
 
-            return view('profile', ['profileData' => $validated, 'favoriteMovies' => collect()]);
+
+
+            Auth::loginUsingId($userId);
+
+
+            return view('profile', ['profileData' => $validated, 'lists' => collect()]);
         } else {
             return view('index');
         }

@@ -17,31 +17,31 @@
         @else
         @endif
     </head>
-    <body class="font-sans bg-gray-900 text-white">
+    <body class="font-sans text-white bg-gray-900">
         <nav class="border-b border-gray-800">
-            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 py-6">
+            <div class="container flex flex-col items-center justify-between px-4 py-6 mx-auto md:flex-row">
                 <ul class="flex items-center">
                     <li><a href="{{ route('movies.index') }}">Movie App</a></li>
                     <li class="ml-16 "><a href="{{ route('movies.index') }}">Movies</a></li>
                 </ul>
-                <div class="flex flex-col md:flex-row items-center">
+                <div class="flex flex-col items-center md:flex-row">
                     <div class="relative">
                         <form action="{{route("movies.searchByName")}}" method="GET">
                             @csrf
-                            <input type="text" name="movie" class="bg-gray-800 rounded-full w-64 px-4 py-1" placeholder="">
-                            <button type="submit" class="absolute right-0 top-0 mt-1 mr-2 text-white">Search</button>
+                            <input type="text" name="movie" class="w-64 px-4 py-1 bg-gray-800 rounded-full" placeholder="">
+                            <button type="submit" class="absolute top-0 right-0 mt-1 mr-2 text-white">Search</button>
                         </form>
                     </div>
                     @if (auth()->check())
                         <?php
                              $userData = Auth::user();
                         ?>
-                        <a href="{{ route('profile', ['profileData' => ['name' => Auth::user()->name, 'user_id' => Auth::user()->id]]) }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                        <a href="{{ route('profile', ['profileData' => ['name' => Auth::user()->name, 'user_id' => Auth::user()->id]]) }}" class="px-6 py-3 ml-6 mr-3 font-sans text-xs font-bold text-pink-500 uppercase transition-all border border-pink-500 rounded-lg middle none center hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                             {{$userData[
                                 'name'
                             ]}}
                         </a>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="middle none center mr-3 rounded-lg border border-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="px-6 py-3 ml-6 mr-3 font-sans text-xs font-bold text-red-500 uppercase transition-all border border-red-500 rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                             LOGOUT
                         </a>
 
@@ -51,11 +51,11 @@
                         </form>
 
                     @else
-                    <div class="md:ml-4 mt-3 md:mt-0">
-                        <a href="{{ route('user.create') }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                    <div class="mt-3 md:ml-4 md:mt-0">
+                        <a href="{{ route('user.create') }}" class="px-6 py-3 ml-6 mr-3 font-sans text-xs font-bold text-pink-500 uppercase transition-all border border-pink-500 rounded-lg middle none center hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                             Sign In
                         </a>
-                        <a href="{{ route('user.login') }}" class="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-6">
+                        <a href="{{ route('user.login') }}" class="px-6 py-3 ml-6 mr-3 font-sans text-xs font-bold text-pink-500 uppercase transition-all border border-pink-500 rounded-lg middle none center hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                             Login
                         </a>
                     </div>
