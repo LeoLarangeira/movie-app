@@ -19,26 +19,26 @@
             type="text"
             name="movie_name"
             placeholder="Insert the Movie Name"
-            class="border rounded px-4 py-2 w-full md:w-1/2"
+            class="w-full px-4 py-2 bg-gray-800 border rounded md:w-1/2"
             required
         >
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
            Search Movie
         </button>
     </form>
 
 
     @if(isset($movies) && count($movies) > 0)
-        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-3 lg:grid-cols-4">
             @foreach($movies as $movie)
-                <div class="bg-gray-800 text-white p-4 rounded shadow">
+                <div class="p-4 text-white bg-gray-800 rounded shadow">
                     <img
                         src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] ?? '' }}"
                         alt="{{ $movie['title'] }}"
-                        class="w-full h-64 object-cover rounded"
+                        class="object-cover w-full h-64 rounded"
                     >
-                    <h2 class="text-lg font-semibold mt-2">{{ $movie['title'] }}</h2>
-                    <p class="text-sm mt-2">
+                    <h2 class="mt-2 text-lg font-semibold">{{ $movie['title'] }}</h2>
+                    <p class="mt-2 text-sm">
                         {{ Str::limit($movie['overview'], 100) }}
                     </p>
                     <div class="mt-2">
@@ -65,7 +65,7 @@
             @endforeach
         </div>
     @elseif(isset($movies))
-        <p class="text-red-500 mt-4">No movies found with the searched name.</p>
+        <p class="mt-4 text-red-500">No movies found with the searched name.</p>
     @endif
 </div>
 

@@ -20,6 +20,16 @@ class ListController extends Controller
         return $account_id;
     }
 
+    public function accountList()
+    {
+        $account_id = $this->getApiKey();
+        $accountLists = Http::withToken(config('services.tmdb.token'))
+            ->get(sprintf("https://api.themoviedb.org/3/account/%s/lists", $account_id))
+            ->json()["results"];
+
+        return $accountLists;
+    }
+
     public function create()
     {
         return view('lists.create');
@@ -52,7 +62,7 @@ class ListController extends Controller
 
 
 
-        return view('profile', ['lists' => $accountLists]);
+        return view('profile', ['lists' => $this->accountList()]);
     }
 
     public function addMovie(Request $request, $listId)
@@ -68,10 +78,10 @@ class ListController extends Controller
         ]);
 
         if ($response->successful()) {
-            return view('profile', ['lists' => $accountLists]);
+            return view('profile', ['lists' => $this->accountList()]);
         }
 
-        return view('profile', ['lists' => $accountLists]);
+        return view('profile', ['lists' => $this->accountList()]);
     }
 
     public function addMovieByName($listName, $listId, Request $request)
@@ -107,7 +117,7 @@ class ListController extends Controller
             'media_id' => $request->input('media_id'),
         ]);
 
-        dd($response);
+        // dd($response);
         if ($response->successful()) {
             return view('profile', ['lists' => $accountLists]);
         }
@@ -120,9 +130,9 @@ class ListController extends Controller
         $response = Http::withToken(config('services.tmdb.token'))->delete("https://api.themoviedb.org/3/list/{$listId}");
 
         if ($response->successful()) {
-            return response()->json(['success' => 'Lista deletada com sucesso!']);
+            return view('profile', ['lists' => $this->accountList()]);
         }
 
-        return response()->json(['error' => $response->json()], $response->status());
+        return view('profile', ['lists' => $this->accountList()]);
     }
 }
